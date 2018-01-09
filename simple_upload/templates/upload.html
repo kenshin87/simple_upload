@@ -1,0 +1,77 @@
+
+
+
+<form>
+
+<p>
+    <label class="" for="inputName">文件名</label>
+    <input id = "inputName" class=""  value= "file name" type="text">    
+</p>
+
+<p>
+    <label class="" for = inputFile请选择文档文件</label>
+    <input id = "inputFile" class = ""  name = "file-upload" type = "file">
+</p>
+
+<p>
+    <input id = "submit" type = "button"/>
+</p>
+
+
+</form>
+
+
+
+<input id = "request" type = "text" value = {{request.path}} />
+
+
+
+<script type="text/javascript" src = "https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    function postFileToCMS()
+    {
+        //runtime.notify('save', {state: 'start'});
+
+        var postUrl = document.getElementById('request').value;
+
+
+        var formDataInstance = new FormData();
+
+
+        var fileData = document.getElementById("inputFile").files[0];
+            formDataInstance.append("file-upload", fileData);
+
+        $.ajax
+        (
+            {
+                type : "POST",
+                url  : postUrl,
+                data : formDataInstance,
+                cache: false,
+                async: false,
+                contentType: false,
+                processData: false,
+
+                success: function(response)
+                {
+                    window.response = response;
+                    console.log("--postFileToCMS success");
+                },  
+
+                error: function(response)
+                {
+                    console.log("--postFileToCMS Fails");
+                }
+            }
+        )
+    }
+
+
+    document.getElementById("submit").addEventListener(
+        "click",
+        postFileToCMS
+        )
+
+</script>
